@@ -80,7 +80,7 @@ public class SpriteShaderGUI : ShaderGUI
 	private MaterialProperty _metallicGlossMap = null;
 	private MaterialProperty _smoothness = null;
 	private MaterialProperty _smoothnessScale = null;
-	
+
 	private static GUIContent _albedoText = new GUIContent("Albedo", "Albedo (RGB) and Transparency (A)");
 	private static GUIContent _altAlbedoText = new GUIContent("Secondary Albedo", "When a secondary albedo texture is set the albedo will be a blended mix of the two textures based on the blend value.");
 	private static GUIContent _metallicMapText = new GUIContent("Metallic", "Metallic (R) and Smoothness (A)");
@@ -106,7 +106,6 @@ public class SpriteShaderGUI : ShaderGUI
 	private static GUIContent _cullingModeText = new GUIContent("Culling Mode");
 	private static GUIContent[] _cullingModeOptions = new GUIContent[] { new GUIContent("Off"), new GUIContent("Front"), new GUIContent("Back")};
 	private static GUIContent _pixelSnapText = new GUIContent("Pixel Snap");
-	private static GUIContent _customRenderTypetagsText = new GUIContent("Use Custom RenderType tags");
 	private static GUIContent _fixedNormalSpaceText = new GUIContent("Fixed Normal Space");
 	private static GUIContent[] _fixedNormalSpaceOptions = new GUIContent[] { new GUIContent("View-Space"), new GUIContent("Model-Space") };
 	private static GUIContent _rimLightingToggleText = new GUIContent("Rim Lighting", "Enable Rim Lighting.");
@@ -243,7 +242,7 @@ public class SpriteShaderGUI : ShaderGUI
 		{
 			dataChanged |= RenderSphericalHarmonicsProperties();
 		}
-		
+
 		{
 			dataChanged |= RenderFogProperties();
 		}
@@ -264,7 +263,7 @@ public class SpriteShaderGUI : ShaderGUI
 			MaterialChanged(_materialEditor);
 		}
 	}
-	
+
 	protected virtual bool RenderModes()
 	{
 		bool dataChanged = false;
