@@ -43,10 +43,10 @@ fixed4 frag(v2f i) : SV_Target {
 	clip( alpha - _Cutoff );
 	return fixed4(EncodeFloatRGB (i.depth), alpha);
 }
-ENDCG 
+ENDCG
 		}
 	}
-	
+
 SubShader {
 	Tags { "RenderType"="SpriteViewSpaceFixedNormal" }
 	Pass {
@@ -81,10 +81,10 @@ fixed4 frag(v2f i) : SV_Target {
 	clip( alpha - _Cutoff );
 	return fixed4(EncodeFloatRGB (i.depth), alpha);
 }
-ENDCG 
+ENDCG
 		}
 	}
-	
+
 SubShader {
 	Tags { "RenderType"="SpriteModelSpaceFixedNormal" }
 	Pass {
@@ -119,10 +119,10 @@ fixed4 frag(v2f i) : SV_Target {
 	clip( alpha - _Cutoff );
 	return fixed4(EncodeFloatRGB (i.depth), alpha);
 }
-ENDCG 
+ENDCG
 		}
 	}
-	
+
 SubShader {
 	Tags { "RenderType"="Opaque" }
 	Pass {
@@ -159,7 +159,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 struct v2f {
     float4 pos : SV_POSITION;
@@ -196,7 +196,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "Lighting.cginc"
 #include "UnityBuiltin3xTreeLibrary.cginc"
@@ -211,7 +211,7 @@ v2f vert( appdata_full v ) {
 	UNITY_SETUP_INSTANCE_ID(v);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
     TreeVertBark(v);
-	
+
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.uv = v.texcoord.xy;
     o.depth = COMPUTE_DEPTH_01;
@@ -231,7 +231,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "Lighting.cginc"
 #include "UnityBuiltin3xTreeLibrary.cginc"
@@ -246,7 +246,7 @@ v2f vert( appdata_full v ) {
 	UNITY_SETUP_INSTANCE_ID(v);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
     TreeVertLeaf(v);
-	
+
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.uv = v.texcoord.xy;
     o.depth = COMPUTE_DEPTH_01;
@@ -271,7 +271,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "TerrainEngine.cginc"
 struct v2f {
@@ -299,7 +299,7 @@ fixed4 frag(v2f i) : SV_Target {
 }
 ENDCG
 	}
-} 
+}
 
 SubShader {
 	Tags { "RenderType"="TreeTransparentCutout" "DisableBatching"="True" }
@@ -309,7 +309,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "TerrainEngine.cginc"
 
@@ -352,7 +352,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "TerrainEngine.cginc"
 
@@ -399,7 +399,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "TerrainEngine.cginc"
 struct v2f {
@@ -432,12 +432,12 @@ ENDCG
 SubShader {
 	Tags { "RenderType"="GrassBillboard" }
 	Pass {
-		Cull Off		
+		Cull Off
 CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "TerrainEngine.cginc"
 
@@ -480,7 +480,7 @@ CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert
 #pragma fragment frag
-#include "UnityCG.cginc" 
+#include "UnityCG.cginc"
 #include "CGIncludes/ShaderMaths.cginc"
 #include "TerrainEngine.cginc"
 struct v2f {

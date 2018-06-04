@@ -42,10 +42,10 @@ fixed4 frag(v2f i) : SV_Target {
 	clip( alpha - _Cutoff );
 	return EncodeDepthNormal (i.nz.w, i.nz.xyz);
 }
-ENDCG 
+ENDCG
 		}
 	}
-	
+
 SubShader {
 	Tags { "RenderType"="SpriteViewSpaceFixedNormal" }
 	Pass {
@@ -80,7 +80,7 @@ fixed4 frag(v2f i) : SV_Target {
 	clip( alpha - _Cutoff );
 	return EncodeDepthNormal (i.nz.w, i.nz.xyz);
 }
-ENDCG 
+ENDCG
 		}
 	}
 
@@ -123,10 +123,10 @@ fixed4 frag(v2f i) : SV_Target {
 	clip( alpha - _Cutoff );
 	return EncodeDepthNormal (i.nz.w, i.nz.xyz);
 }
-ENDCG 
+ENDCG
 		}
 	}
-	
+
 SubShader {
 	Tags { "RenderType"="Opaque" }
 	Pass {
@@ -214,7 +214,7 @@ v2f vert( appdata_full v ) {
 	UNITY_SETUP_INSTANCE_ID(v);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
     TreeVertBark(v);
-	
+
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.uv = v.texcoord.xy;
     o.nz.xyz = COMPUTE_VIEW_NORMAL;
@@ -249,7 +249,7 @@ v2f vert( appdata_full v ) {
 	UNITY_SETUP_INSTANCE_ID(v);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
     TreeVertLeaf(v);
-	
+
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.uv = v.texcoord.xy;
     o.nz.xyz = COMPUTE_VIEW_NORMAL;
@@ -303,7 +303,7 @@ fixed4 frag(v2f i) : SV_Target {
 }
 ENDCG
 	}
-} 
+}
 
 SubShader {
 	Tags { "RenderType"="TreeTransparentCutout" "DisableBatching"="True" }
@@ -436,7 +436,7 @@ ENDCG
 SubShader {
 	Tags { "RenderType"="GrassBillboard" }
 	Pass {
-		Cull Off		
+		Cull Off
 CGPROGRAM
 #pragma target 3.0
 #pragma vertex vert

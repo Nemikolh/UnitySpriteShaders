@@ -21,7 +21,7 @@ uniform sampler2D _MetallicGlossMap;
 
 struct SpecularLightData
 {
-	half3 lighting;	
+	half3 lighting;
 	half3 specular;
 };
 
@@ -37,7 +37,7 @@ struct SpecularCommonData
 inline half2 getMetallicGloss(float2 uv)
 {
 	half2 mg;
-	
+
 #ifdef _SPECULAR_GLOSSMAP
 	mg = tex2D(_MetallicGlossMap, uv).ra;
 	mg.g *= _GlossMapScale;
@@ -45,7 +45,7 @@ inline half2 getMetallicGloss(float2 uv)
 	mg.r = _Metallic;
 	mg.g = _Glossiness;
 #endif
-	
+
 	return mg;
 }
 
@@ -54,7 +54,7 @@ inline half getOneMinusReflectivityFromMetallic(half metallic)
 	// We'll need oneMinusReflectivity, so
 	//   1-reflectivity = 1-lerp(dielectricSpec, 1, metallic) = lerp(1-dielectricSpec, 0, metallic)
 	// store (1-dielectricSpec) in unity_ColorSpaceDielectricSpec.a, then
-	//	 1-reflectivity = lerp(alpha, 0, metallic) = alpha + metallic*(0 - alpha) = 
+	//	 1-reflectivity = lerp(alpha, 0, metallic) = alpha + metallic*(0 - alpha) =
 	//                  = alpha - metallic * alpha
 	half oneMinusDielectricSpec = unity_ColorSpaceDielectricSpec.a;
 	return oneMinusDielectricSpec - metallic * oneMinusDielectricSpec;
@@ -65,19 +65,19 @@ inline SpecularCommonData getSpecularData(float2 uv, half4 texureColor, fixed4 c
 	half2 metallicGloss = getMetallicGloss(uv);
 	half metallic = metallicGloss.x;
 	half smoothness = metallicGloss.y; // this is 1 minus the square root of real roughness m.
-	
+
 	fixed4 albedo = calculatePixel(texureColor, color);
-	
+
 	half3 specColor = lerp (unity_ColorSpaceDielectricSpec.rgb, albedo, metallic);
 	half oneMinusReflectivity = getOneMinusReflectivityFromMetallic(metallic);
 	half3 diffColor = albedo * oneMinusReflectivity;
-	
+
 	SpecularCommonData o = (SpecularCommonData)0;
 	o.diffColor = diffColor;
 	o.specColor = specColor;
 	o.oneMinusReflectivity = oneMinusReflectivity;
 	o.smoothness = smoothness;
-	
+
 #if defined(_ALPHAPREMULTIPLY_ON) && (SHADER_TARGET >= 30)
 	// Reflectivity 'removes' from the rest of components, including Transparency
 	// outAlpha = 1-(1-alpha)*(1-reflectivity) = 1-(oneMinusReflectivity - alpha*oneMinusReflectivity) =
@@ -87,7 +87,7 @@ inline SpecularCommonData getSpecularData(float2 uv, half4 texureColor, fixed4 c
 #else
 	o.alpha = albedo.a;
 #endif
-	
+
 	return o;
 }
 inline half SmoothnessToPerceptualRoughness(half smoothness)
@@ -182,7 +182,7 @@ SpecularLightData calculatePhysicsBasedSpecularLight(half3 specColor, half oneMi
 // Following define allow to control this. Set it to 0 if ALU is critical on your platform.
 // This correction is interesting for GGX with SmithJoint visibility function because artifacts are more visible in this case due to highlight edge of rough surface
 // Edit: Disable this code by default for now as it is not compatible with two sided lighting used in SpeedTree.
-#define UNITY_HANDLE_CORRECTLY_NEGATIVE_NDOTV 0 
+#define UNITY_HANDLE_CORRECTLY_NEGATIVE_NDOTV 0
 
 #if UNITY_HANDLE_CORRECTLY_NEGATIVE_NDOTV
 	// The amount we shift the normal toward the view vector is defined by the dot product.
@@ -234,13 +234,13 @@ SpecularLightData calculatePhysicsBasedSpecularLight(half3 specColor, half oneMi
 	specularTerm *= any(specColor) ? 1.0 : 0.0;
 
 	half grazingTerm = saturate(smoothness + (1-oneMinusReflectivity));
-	
+
 	SpecularLightData outData = (SpecularLightData)0;
 	outData.lighting = indirectDiffuse + lightColor * diffuseTerm;
 	outData.specular = (specularTerm * lightColor * FresnelTerm (specColor, lh)) + (surfaceReduction * indirectSpecular * FresnelLerp (specColor, grazingTerm, nv));
 	return outData;
 }
 
-#endif // _SPECULAR  && _SPECULAR_GLOSSMAP 
+#endif // _SPECULAR  && _SPECULAR_GLOSSMAP
 
 #endif // SPRITE_SPECULAR_INCLUDED

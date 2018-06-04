@@ -26,7 +26,7 @@ struct VertexInput
 #if defined(_NORMALMAP)
 	float4 tangent : TANGENT;
 #endif // _NORMALMAP
-	
+
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -54,9 +54,9 @@ inline float calculateBackfacingSign(float3 worldPos)
 inline half3 calculateSpriteWorldNormal(VertexInput vertex, float backFaceSign)
 {
 #if defined(MESH_NORMALS)
-	
+
 	return calculateWorldNormal(vertex.normal);
-	
+
 #else // !MESH_NORMALS
 
 	float3 normal = getFixedNormal();
@@ -67,23 +67,23 @@ inline half3 calculateSpriteWorldNormal(VertexInput vertex, float backFaceSign)
 	float3x3 invView = transpose((float3x3)UNITY_MATRIX_V);
 	return normalize(mul(invView, normal));
 #else
-	//Model space fixed normal. 
-#if defined(FIXED_NORMALS_BACKFACE_RENDERING)	
+	//Model space fixed normal.
+#if defined(FIXED_NORMALS_BACKFACE_RENDERING)
 	//If back face rendering is enabled and the sprite is facing away from the camera (ie we're rendering the backface) then need to flip the normal
 	normal *= backFaceSign;
 #endif
 	return calculateWorldNormal(normal);
 #endif
-	
+
 #endif // !MESH_NORMALS
 }
 
 inline half3 calculateSpriteViewNormal(VertexInput vertex, float backFaceSign)
 {
 #if defined(MESH_NORMALS)
-	
+
 	return normalize(mul((float3x3)UNITY_MATRIX_IT_MV, vertex.normal));
-	
+
 #else // !MESH_NORMALS
 
 	float3 normal = getFixedNormal();
@@ -93,13 +93,13 @@ inline half3 calculateSpriteViewNormal(VertexInput vertex, float backFaceSign)
 	return normal;
 #else
 	//Model space fixed normal
-#if defined(FIXED_NORMALS_BACKFACE_RENDERING)	
+#if defined(FIXED_NORMALS_BACKFACE_RENDERING)
 	//If back face rendering is enabled and the sprite is facing away from the camera (ie we're rendering the backface) then need to flip the normal
 	normal *= backFaceSign;
 #endif
 	return normalize(mul((float3x3)UNITY_MATRIX_IT_MV, normal));
 #endif
-		
+
 #endif // !MESH_NORMALS
 }
 
@@ -167,11 +167,11 @@ inline fixed3 applyRimLighting(fixed3 posWorld, fixed3 normalWorld, fixed4 pixel
 	float invDot =  1.0 - saturate(dot(normalWorld, viewDir));
 	float rimPower = pow(invDot, _RimPower);
 	float rim = saturate(rimPower * _RimColor.a);
-	
+
 #if defined(_DIFFUSE_RAMP)
 	rim = calculateDiffuseRamp(rim).r;
 #endif
-	
+
 	return lerp(pixel.rgb, _RimColor.xyz * pixel.a, rim);
 }
 

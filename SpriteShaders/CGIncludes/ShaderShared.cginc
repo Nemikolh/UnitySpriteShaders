@@ -41,7 +41,7 @@ inline float4 calculateLocalPos(float4 vertex)
 #endif
 
 	float4 pos = UnityObjectToClipPos(vertex);
-	
+
 #ifdef PIXELSNAP_ON
 	pos = UnityPixelSnap(pos);
 #endif
@@ -78,7 +78,7 @@ half3 UnpackScaleNormal(half4 packednormal, half bumpScale)
 		normal.z = sqrt(1.0 - saturate(dot(normal.xy, normal.xy)));
 		return normal;
 	#endif
-}		
+}
 
 
 inline half3 calculateWorldTangent(float4 tangent)
@@ -109,7 +109,7 @@ inline half3 calculateNormalFromBumpMap(float2 texUV, half3 tangentWorld, half3 
 inline fixed4 calculateLitPixel(fixed4 texureColor, fixed4 color, fixed3 lighting) : SV_Target
 {
 	fixed4 finalPixel;
-	
+
 #if defined(_ALPHABLEND_ON)
 	//Normal Alpha
 	finalPixel.a = texureColor.a * color.a;
@@ -136,20 +136,20 @@ inline fixed4 calculateLitPixel(fixed4 texureColor, fixed4 color, fixed3 lightin
 	//Additive soft
 	finalPixel = texureColor * color;
 	finalPixel.rgb *= lighting * finalPixel.a;
-#else 
+#else
 	//Opaque
 	finalPixel.a = 1;
 	finalPixel.rgb = texureColor.rgb * color.rgb * lighting;
 #endif
-	
+
 	return finalPixel;
 }
 
 inline fixed4 calculateLitPixel(fixed4 texureColor, fixed3 lighting) : SV_Target
 {
 	fixed4 finalPixel;
-	
-#if defined(_ALPHABLEND_ON)	
+
+#if defined(_ALPHABLEND_ON)
 	//Normal Alpha
 	finalPixel.a = texureColor.a;
 	finalPixel.rgb = texureColor.rgb * (lighting * finalPixel.a);
@@ -175,19 +175,19 @@ inline fixed4 calculateLitPixel(fixed4 texureColor, fixed3 lighting) : SV_Target
 	//Additive soft
 	finalPixel = texureColor;
 	finalPixel.rgb *= lighting * finalPixel.a;
-#else 
+#else
 	//Opaque
 	finalPixel.a = 1;
 	finalPixel.rgb = texureColor.rgb * lighting;
 #endif
-	
+
 	return finalPixel;
 }
 
 inline fixed4 calculateAdditiveLitPixel(fixed4 texureColor, fixed4 color, fixed3 lighting) : SV_Target
 {
 	fixed4 finalPixel;
-	
+
 #if defined(_ALPHABLEND_ON)	|| defined(_MULTIPLYBLEND)	|| defined(_MULTIPLYBLEND_X2) || defined(_ADDITIVEBLEND) || defined(_ADDITIVEBLEND_SOFT)
 	//Normal Alpha, Additive and Multiply modes
 	finalPixel.rgb = (texureColor.rgb * lighting * color.rgb) * (texureColor.a * color.a);
@@ -201,14 +201,14 @@ inline fixed4 calculateAdditiveLitPixel(fixed4 texureColor, fixed4 color, fixed3
 	finalPixel.rgb = texureColor.rgb * lighting * color.rgb;
 	finalPixel.a = 1.0;
 #endif
-	
+
 	return finalPixel;
 }
 
 inline fixed4 calculateAdditiveLitPixel(fixed4 texureColor, fixed3 lighting) : SV_Target
 {
 	fixed4 finalPixel;
-	
+
 #if defined(_ALPHABLEND_ON)	|| defined(_MULTIPLYBLEND) || defined(_MULTIPLYBLEND_X2) || defined(_ADDITIVEBLEND) || defined(_ADDITIVEBLEND_SOFT)
 	//Normal Alpha, Additive and Multiply modes
 	finalPixel.rgb = (texureColor.rgb * lighting) * texureColor.a;
@@ -218,15 +218,15 @@ inline fixed4 calculateAdditiveLitPixel(fixed4 texureColor, fixed3 lighting) : S
 	finalPixel.rgb = texureColor.rgb * lighting;
 	finalPixel.a = 1.0;
 #endif
-	
+
 	return finalPixel;
 }
 
 inline fixed4 calculatePixel(fixed4 texureColor, fixed4 color) : SV_Target
 {
 	fixed4 finalPixel;
-	
-#if defined(_ALPHABLEND_ON)	
+
+#if defined(_ALPHABLEND_ON)
 	//Normal Alpha
 	finalPixel.a = texureColor.a * color.a;
 	finalPixel.rgb = (texureColor.rgb * color.rgb) * finalPixel.a;
@@ -250,20 +250,20 @@ inline fixed4 calculatePixel(fixed4 texureColor, fixed4 color) : SV_Target
 	//Additive soft
 	finalPixel = color * texureColor;
 	finalPixel.rgb *= finalPixel.a;
-#else 
+#else
 	//Opaque
 	finalPixel.a = 1;
 	finalPixel.rgb = texureColor.rgb * color.rgb;
 #endif
-	
+
 	return finalPixel;
 }
 
 inline fixed4 calculatePixel(fixed4 texureColor) : SV_Target
 {
 	fixed4 finalPixel;
-	
-#if defined(_ALPHABLEND_ON)	
+
+#if defined(_ALPHABLEND_ON)
 	//Normal Alpha
 	finalPixel.a = texureColor.a;
 	finalPixel.rgb = texureColor.rgb * finalPixel.a;
@@ -290,7 +290,7 @@ inline fixed4 calculatePixel(fixed4 texureColor) : SV_Target
 	//Opaque
 	finalPixel.a = 1;
 	finalPixel.rgb = texureColor.rgb;
-#endif 
+#endif
 
 	return finalPixel;
 }
@@ -299,7 +299,7 @@ inline fixed4 calculatePixel(fixed4 texureColor) : SV_Target
 // Alpha Clipping
 //
 
-#if defined(_ALPHA_CLIP) 
+#if defined(_ALPHA_CLIP)
 
 uniform fixed _Cutoff;
 
@@ -340,7 +340,7 @@ float3 rgb2hsv(float3 c)
   return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 
-float3 hsv2rgb(float3 c) 
+float3 hsv2rgb(float3 c)
 {
   c = float3(c.x, clamp(c.yz, 0.0, 1.0));
   float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
@@ -351,13 +351,13 @@ float3 hsv2rgb(float3 c)
 inline fixed4 adjustColor(fixed4 color)
 {
 	float3 hsv = rgb2hsv(color.rgb);
-	
-	hsv.x += _Hue; 
-	hsv.y *= _Saturation; 
+
+	hsv.x += _Hue;
+	hsv.y *= _Saturation;
 	hsv.z *= _Brightness;
-	
+
 	color.rgb = hsv2rgb(hsv);
-	
+
 	return color;
 }
 
@@ -377,7 +377,7 @@ inline fixed4 adjustColor(fixed4 color)
 
 #if defined(_FOG) && (defined(FOG_LINEAR) || defined(FOG_EXP) || defined(FOG_EXP2))
 
-inline fixed4 applyFog(fixed4 pixel, float1 fogCoord) 
+inline fixed4 applyFog(fixed4 pixel, float1 fogCoord)
 {
 #if defined(_ADDITIVEBLEND) || defined(_ADDITIVEBLEND_SOFT)
 	//In additive mode blend from clear to black based on luminance
@@ -397,18 +397,18 @@ inline fixed4 applyFog(fixed4 pixel, float1 fogCoord)
 #else
 	//In opaque mode just return fog color;
 	fixed4 fogColor = unity_FogColor;
-#endif 
-	
+#endif
+
 	UNITY_APPLY_FOG_COLOR(fogCoord, pixel, fogColor);
-	
+
 	return pixel;
 }
 
 #define APPLY_FOG(pixel, input) pixel = applyFog(pixel, input.fogCoord);
-	
+
 #define APPLY_FOG_ADDITIVE(pixel, input) \
 	UNITY_APPLY_FOG_COLOR(input.fogCoord, pixel.rgb, fixed4(0,0,0,0)); // fog towards black in additive pass
-	
+
 #else
 
 #define APPLY_FOG(pixel, input)
@@ -440,7 +440,7 @@ inline fixed4 calculateBlendedTexturePixel(float2 texcoord)
 inline fixed4 calculateTexturePixel(float2 texcoord)
 {
 	fixed4 pixel;
-	
+
 #if _TEXTURE_BLEND
 	pixel = calculateBlendedTexturePixel(texcoord);
 #else

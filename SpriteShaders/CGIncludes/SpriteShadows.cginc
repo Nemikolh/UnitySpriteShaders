@@ -14,7 +14,7 @@ struct vertexInput
 };
 
 struct vertexOutput
-{ 
+{
 	V2F_SHADOW_CASTER;
 	float2 texcoord : TEXCOORD1;
 };
@@ -38,11 +38,11 @@ vertexOutput vert(vertexInput v)
 
 uniform fixed _ShadowAlphaCutoff;
 
-fixed4 frag(vertexOutput IN) : COLOR 
+fixed4 frag(vertexOutput IN) : COLOR
 {
 	fixed4 texureColor = calculateTexturePixel(IN.texcoord);
 	clip(texureColor.a - _ShadowAlphaCutoff);
-	
+
 	SHADOW_CASTER_FRAGMENT(IN)
 }
 
